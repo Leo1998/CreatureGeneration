@@ -5,10 +5,6 @@ using UnityEngine;
 public class Generator : MonoBehaviour
 {
 
-    // Regenerate creature every 30 seconds
-    public bool auto = true;
-    public float autoGenerateTime = 30;
-
     private GameObject parent;
     private GameObject left;
     private GameObject right;
@@ -19,17 +15,13 @@ public class Generator : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        // regenerate creature
-        if (auto)
-        {
-            InvokeRepeating("GenerateShapes", 0.0f, autoGenerateTime);
-        }
-
         // load materials from Resources folder
         materials = Resources.LoadAll("Materials", typeof(Material));
+
+        Generate();
     }
 
-    void GenerateShapes()
+    void Generate()
     {
         // clear for new creature
         Destroy(parent);
@@ -60,24 +52,24 @@ public class Generator : MonoBehaviour
             float scale = Random.Range(0.25f, 1.25f);
             float randRot = Random.Range(-360.00f, 360.00f);
 
-            GameObject go = Instantiate(shapes[randShape], new Vector3(Random.Range(0.35f, 3.0f), Random.Range(-1.0f, 3.0f), Random.Range(-1.0f, 3.0f)), Quaternion.identity);
-            GameObject go2 = Instantiate(shapes[randShape], new Vector3(-go.transform.position.x, go.transform.position.y, go.transform.position.z), Quaternion.identity);
+            GameObject leftGo = Instantiate(shapes[randShape], new Vector3(Random.Range(0.35f, 3.0f), Random.Range(-1.0f, 3.0f), Random.Range(-1.0f, 3.0f)), Quaternion.identity);
+            GameObject rightGo = Instantiate(shapes[randShape], new Vector3(-leftGo.transform.position.x, leftGo.transform.position.y, leftGo.transform.position.z), Quaternion.identity);
 
-            go.transform.localScale = new Vector3(scale, scale, scale);
-            go2.transform.localScale = new Vector3(-go.transform.localScale.x, go.transform.localScale.y, go.transform.localScale.z);
+            leftGo.transform.localScale = new Vector3(scale, scale, scale);
+            rightGo.transform.localScale = new Vector3(-leftGo.transform.localScale.x, leftGo.transform.localScale.y, leftGo.transform.localScale.z);
 
-            go.transform.rotation = Quaternion.Euler(0, 0, randRot);
-            go2.transform.rotation = Quaternion.Inverse(go.transform.rotation);
+            leftGo.transform.rotation = Quaternion.Euler(0, 0, randRot);
+            rightGo.transform.rotation = Quaternion.Inverse(leftGo.transform.rotation);
 
             // add color
-            go.GetComponent<Renderer>().material = material;
-            go2.GetComponent<Renderer>().material = material;
+            leftGo.GetComponent<Renderer>().material = material;
+            rightGo.GetComponent<Renderer>().material = material;
          
-            go.transform.parent = left.transform;
-            go2.transform.parent = right.transform;
+            leftGo.transform.parent = left.transform;
+            rightGo.transform.parent = right.transform;
 
-            go.SetActive(true);
-            go2.SetActive(true);
+            leftGo.SetActive(true);
+            rightGo.SetActive(true);
            
         }
 
@@ -86,6 +78,8 @@ public class Generator : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        if (Input.GetKeyDown("space")) {
+            Generate();
+        }
     }
 }
