@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44658792, g: 0.49642283, b: 0.5748252, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657832, g: 0.49641222, b: 0.57481664, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -154,6 +154,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shapes:
   - {fileID: 1624318822}
+  bodyHeightMin: 2
+  bodyHeightMax: 3.5
+  bodyRadiusMin: 0.8
+  bodyRadiusMax: 1.5
+  jointRadiusMin: 0.25
+  jointRadiusMax: 0.5
+  jointLengthMin: 0.5
+  jointLengthMax: 1.5
+  numLegsMin: 4
+  numLegsMax: 8
+  numJointsMin: 2
+  numJointMax: 4
 --- !u!4 &440333543
 Transform:
   m_ObjectHideFlags: 0

@@ -10,6 +10,24 @@ public class Generator : MonoBehaviour
     public List<GameObject> shapes;
     private Object[] materials;
 
+    public float bodyHeightMin = 2.0f;
+    public float bodyHeightMax = 3.5f;
+    
+    public float bodyRadiusMin = 0.8f;
+    public float bodyRadiusMax = 1.5f;
+
+    public float jointRadiusMin = 0.25f;
+    public float jointRadiusMax = 0.5f;
+
+    public float jointLengthMin = 0.5f;
+    public float jointLengthMax = 1.5f;
+
+    public int numLegsMin = 4;
+    public int numLegsMax = 8;
+
+    public int numJointsMin = 2;
+    public int numJointMax = 4;
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -27,8 +45,8 @@ public class Generator : MonoBehaviour
         // choose random material
         Material material = (Material)materials[Random.Range(0, materials.Length)];
 
-        float bodyHeight = Random.Range(2.2f, 3.5f);
-        float bodyRadius = Random.Range(0.7f, 1.5f);
+        float bodyHeight = Random.Range(bodyHeightMin, bodyHeightMax);
+        float bodyRadius = Random.Range(bodyRadiusMin, bodyRadiusMax);
 
         // Skeleton 
         parent = Instantiate(shapes[0], new Vector3(0, 0, 0), Quaternion.identity);
@@ -38,19 +56,19 @@ public class Generator : MonoBehaviour
 
         parent.name = "Creature (Parent)";
 
-        int parts = Random.Range(2, 6);
-        for (int i = 0; i < parts; i++)
+        int numLegs = Random.Range(numLegsMin, numLegsMax) / 2;
+        for (int i = 0; i < numLegs; i++)
         {
-            float yPos = 1.75f * i * (bodyHeight / parts) - bodyHeight * 0.75f;
+            float yPos = 2.0f * i * (bodyHeight / numLegs) - bodyHeight + (bodyHeight / numLegs);
             float xPos = bodyRadius / 2;
-            int numJoints = Random.Range(2, 5);
+            int numJoints = Random.Range(numJointsMin, numJointMax);
 
             GameObject prevLeft = parent;
             GameObject prevRight = parent;
             for (int j = 0; j < numJoints; j++) {
                 int randShape = Random.Range(0, shapes.Count);
-                float radius = Random.Range(0.25f, 0.75f);
-                float length = Random.Range(0.5f, 1.5f);
+                float radius = Random.Range(jointRadiusMin, jointRadiusMax);
+                float length = Random.Range(jointLengthMin, jointLengthMax);
                 float rot = 90.0f;
 
                 GameObject leftGo = Instantiate(shapes[randShape], new Vector3(xPos + length * 0.5f, yPos, 0), Quaternion.identity);
@@ -78,7 +96,7 @@ public class Generator : MonoBehaviour
             }
         }
     }
-
+    
     // Update is called once per frame
     void Update()
     {
