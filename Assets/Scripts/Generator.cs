@@ -26,7 +26,7 @@ public class Generator : MonoBehaviour
     public int numLegsMax = 8;
 
     public int numJointsMin = 2;
-    public int numJointMax = 4;
+    public int numJointMax = 3;
     
     // Start is called before the first frame update
     void Start()
@@ -56,12 +56,12 @@ public class Generator : MonoBehaviour
 
         parent.name = "Creature (Parent)";
 
-        int numLegs = Random.Range(numLegsMin, numLegsMax) / 2;
+        int numLegs = Random.Range(numLegsMin, numLegsMax + 1) / 2;
         for (int i = 0; i < numLegs; i++)
         {
             float yPos = 2.0f * i * (bodyHeight / numLegs) - bodyHeight + (bodyHeight / numLegs);
             float xPos = bodyRadius / 2;
-            int numJoints = Random.Range(numJointsMin, numJointMax);
+            int numJoints = Random.Range(numJointsMin, numJointMax + 1);
 
             GameObject prevLeft = parent;
             GameObject prevRight = parent;
